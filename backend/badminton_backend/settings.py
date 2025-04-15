@@ -77,8 +77,12 @@ WSGI_APPLICATION = 'badminton_backend.wsgi.application'
 
 DATABASES = {
     'default': {
-        'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': BASE_DIR / 'db.sqlite3',
+        'ENGINE': 'django.db.backends.postgresql',
+        'NAME': 'badminton_training_app_db',
+        'USER': 'badminton_training_app_admin',
+        'PASSWORD': 'nanoflare800lt',
+        'HOST': 'localhost',
+        'PORT': '5432',
     }
 }
 
