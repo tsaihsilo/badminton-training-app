@@ -18,8 +18,7 @@ Including another URLconf
 from django.contrib import admin
 from django.urls import path, include
 from rest_framework import routers
-from message.views import MessageViewSet
-from message.views import ping
+from user_messages.views import MessageViewSet
 
 router = routers.DefaultRouter()
 router.register(r'message', MessageViewSet)
@@ -27,5 +26,5 @@ router.register(r'message', MessageViewSet)
 urlpatterns = [
   path('admin/', admin.site.urls),
   path('api/', include(router.urls)),
-  path('ping/', ping),
+  path('', include('testing.urls'))
 ]
