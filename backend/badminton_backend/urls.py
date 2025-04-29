@@ -17,14 +17,11 @@ Including another URLconf
 
 from django.contrib import admin
 from django.urls import path, include
-from rest_framework import routers
-from user_messages.views import MessageViewSet
-
-router = routers.DefaultRouter()
-router.register(r'message', MessageViewSet)
 
 urlpatterns = [
   path('admin/', admin.site.urls),
-  path('api/', include(router.urls)),
-  path('', include('testing.urls'))
+  path('accounts/', include('allauth.urls')),
+  path('_allauth/', include('allauth.headless.urls')),
+  path('api/user_messages/', include('user_messages.urls')),
+  path('api/testing/', include('testing.urls')),
 ]
