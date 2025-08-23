@@ -66,6 +66,7 @@ INSTALLED_APPS = [
 
     # Your apps
     "user_profile.apps.UserProfileConfig",
+    "user_message",
 ]
 
 SITE_ID = 1
