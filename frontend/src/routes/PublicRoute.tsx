@@ -6,9 +6,7 @@ export const PublicRoute = () => {
 
   if (isLoading) return <div>Loading...</div>
 
-  const isAuthenticated = data?.isAuthenticated;
-
-  if (isAuthenticated) {
+  if (data?.isAuthenticated) {
     return <Navigate to="/app" />;
   }
   

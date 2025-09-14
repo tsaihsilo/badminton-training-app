@@ -4,9 +4,7 @@ import { useAuthSessionQuery } from "../features/auth/hooks/useAuthSessionQuery"
 export const AppIndexRedirect = () => {
   const { data, isLoading } = useAuthSessionQuery();
 
-  if (isLoading) return <div>Loading...</div>;
-
-  if (typeof data?.isInstructor !== "boolean") return <div>Loading...</div>;
+  if (isLoading || typeof data?.isInstructor !== "boolean") return <div>Loading...</div>;
 
   return <Navigate to={data?.isInstructor ? "/app/instructor" : "/app/student"} replace />;
 }
