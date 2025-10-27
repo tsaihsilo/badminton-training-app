@@ -30,9 +30,16 @@ DEBUG = os.getenv("DEBUG", "0") in ("1", "true", "True")
 
 # Host/CORS basics for local dev
 ALLOWED_HOSTS = os.getenv("ALLOWED_HOSTS", "localhost,127.0.0.1").split(",")
-CORS_ALLOWED_ORIGINS = ["http://localhost:5173"]
+CORS_ALLOWED_ORIGINS = os.getenv(
+    "CORS_ALLOWED_ORIGINS", "http://localhost:5173"
+).split(",")
+
 CORS_ALLOW_CREDENTIALS = True
-CSRF_TRUSTED_ORIGINS = ["http://localhost:5173", "http://localhost:8000"]
+
+CSRF_TRUSTED_ORIGINS = os.getenv(
+    "CSRF_TRUSTED_ORIGINS", "http://localhost:5173,http://localhost:8000"
+).split(",")
+
 
 # API-only auth stack
 AUTHENTICATION_BACKENDS = [
@@ -66,12 +73,13 @@ INSTALLED_APPS = [
 
     # Your apps
     "user_profile.apps.UserProfileConfig",
-    "user_message",
+    "training.apps.TrainingConfig"
 ]
 
 SITE_ID = 1
 
 # Use your custom headless adapter to include is_instructor in session payload
+ACCOUNT_ADAPTER = "user_profile.adapters.CustomAccountAdapter"
 HEADLESS_ADAPTER = "badminton_backend.auth_adapters.MyHeadlessAdapter"
 HEADLESS_ONLY = True  # tell allauth you’re API-only
 
@@ -154,9 +162,4 @@ REST_FRAMEWORK = {
     "DEFAULT_PERMISSION_CLASSES": [
         "rest_framework.permissions.IsAuthenticated",
     ],
-}
-
-# dj-rest-auth: hook your custom register serializer
-REST_AUTH_REGISTER_SERIALIZERS = {
-    "REGISTER_SERIALIZER": "user_profile.serializers.CustomRegisterSerializer",
 }
