@@ -21,5 +21,4 @@ from django.urls import path, include
 urlpatterns = [
   path('admin/', admin.site.urls),
   path('_allauth/', include('allauth.headless.urls')),
-  path('api/user_message/', include('user_message.urls')),
 ]
