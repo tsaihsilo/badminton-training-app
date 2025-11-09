@@ -26,3 +26,15 @@ class Enrollment(models.Model):
 
   def __str__(self):
     return f"{self.student} enrolled under {self.instructor}"
+  
+
+class Assignment(models.Model):
+  enrollment = models.ForeignKey(Enrollment, on_delete=models.CASCADE, related_name="assignments")
+  drill = models.ForeignKey(Drill, on_delete=models.CASCADE, related_name="assignments")
+  is_completed = models.BooleanField(default=False)
+
+  class Meta:
+    unique_together = (("enrollment", "drill"))
+  
+  def __str__(self):
+    return f"{self.enrollment.student.username} -> {self.drill.title}"
