@@ -1,8 +1,10 @@
 from django.contrib.auth import get_user_model
 from rest_framework import serializers
-from .models import Drill, Enrollment
+from .models import Drill, Enrollment, Assignment
+
 
 User = get_user_model()
+
 
 class DrillSerializer(serializers.ModelSerializer):
   class Meta:
@@ -26,3 +28,18 @@ class StudentSerializer(serializers.ModelSerializer):
   class Meta:
     model = User
     fields = ["id", "username"]
+
+
+class AssignmentSerializer(serializers.ModelSerializer):
+  student_username = serializers.CharField(source="enrollment.student.username", read_only=True)
+  drill_title = serializers.CharField(source="drill.title", read_only=True)
+
+  class Meta:
+    model = Assignment
+    fields = ["id", "enrollment", "drill", "is_completed", "student_username", "drill_title"]
+
+
+class AssignmentCompletionSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Assignment
+        fields = ["is_completed"]
