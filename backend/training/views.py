@@ -1,19 +1,20 @@
 from django.contrib.auth import get_user_model
 from rest_framework import generics, permissions, serializers, status
+from rest_framework import views
 from rest_framework.response import Response
-from .models import Drill, Enrollment
-from .serializers import DrillSerializer, EnrollmentSerializer, StudentSerializer
-from .permissions import IsInstructor
+from .models import Drill, Enrollment, Assignment
+from .serializers import DrillSerializer, EnrollmentSerializer, StudentSerializer, AssignmentSerializer, AssignmentCompletionSerializer
+from .permissions import IsInstructor, IsStudent
 
 User = get_user_model()
 
-class DrillListView(generics.ListAPIView):
-  serializer_class = DrillSerializer
-  permission_classes = [permissions.IsAuthenticated, IsInstructor]
-  queryset = Drill.objects.filter(is_active=True).order_by("title")
-
-
-class EnrollmentListCreateView(generics.ListCreateAPIView):
+# Instructor views
+class InstructorEnrollmentListCreateView(generics.ListCreateAPIView):
+  """
+  GET -> list all current students under this instructor
+  POST -> enroll a new student under this instructor
+  Used in: Instructor 'Manage Students' page.
+  """
   serializer_class = EnrollmentSerializer
   permission_classes = [permissions.IsAuthenticated, IsInstructor]
 
@@ -29,7 +30,11 @@ class EnrollmentListCreateView(generics.ListCreateAPIView):
     serializer.save(instructor=self.request.user)
   
   
-class EnrollmentDetailView(generics.DestroyAPIView):
+class InstructorEnrollmentDetailView(generics.DestroyAPIView):
+  """
+  DELETE -> remove a student under this instructor (by enrollment id)
+  Used in: Instructor 'Manage Students' page.
+  """
   serializer_class = EnrollmentSerializer
   permission_classes = [permissions.IsAuthenticated, IsInstructor]
   
@@ -37,7 +42,11 @@ class EnrollmentDetailView(generics.DestroyAPIView):
     return Enrollment.objects.filter(instructor=self.request.user)
 
 
-class StudentListView(generics.ListAPIView):
+class InstructorStudentListView(generics.ListAPIView):
+  """
+  GET -> list all students (for dropdown when adding/removing)
+  Used in: Instructor 'Manage Students' page.
+  """
   serializer_class = StudentSerializer
   permission_classes = [permissions.IsAuthenticated, IsInstructor]
   queryset = User.objects.filter(userprofile__is_instructor=False)
