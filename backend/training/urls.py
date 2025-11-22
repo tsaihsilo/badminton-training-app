@@ -1,12 +1,6 @@
 from django.urls import path
-from .views import (
-  InstructorDrillListView, 
-  InstructorEnrollmentListCreateView, InstructorEnrollmentDetailView, 
-  InstructorStudentListView,
-  InstructorAssignmentListCreateView, InstructorAssignmentDetailView,
-  StudentEnrollmentView,
-  StudentAssignmentListView, StudentAssignmentUpdateView
-)
+from .views.instructor_views import InstructorDrillListView, InstructorEnrollmentListCreateView, InstructorEnrollmentDetailView, InstructorStudentListView, InstructorAssignmentListCreateView, InstructorAssignmentDetailView
+from .views.student_views import StudentEnrollmentView, StudentAssignmentListView, StudentAssignmentUpdateView
 
 urlpatterns = [
   # Instructor endpoints
