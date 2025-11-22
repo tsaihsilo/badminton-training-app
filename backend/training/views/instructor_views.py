@@ -1,14 +1,11 @@
 from django.contrib.auth import get_user_model
-from rest_framework import generics, permissions, serializers, status
-from rest_framework import views
-from rest_framework.response import Response
-from .models import Drill, Enrollment, Assignment
-from .serializers import DrillSerializer, EnrollmentSerializer, StudentSerializer, AssignmentSerializer, AssignmentCompletionSerializer
-from .permissions import IsInstructor, IsStudent
+from rest_framework import generics, permissions, serializers
+from ..permissions import IsInstructor
+from ..models import Drill, Enrollment, Assignment
+from ..serializers import DrillSerializer, EnrollmentSerializer, AssignmentSerializer, StudentSerializer
 
 User = get_user_model()
 
-# Instructor views
 class InstructorEnrollmentListCreateView(generics.ListCreateAPIView):
   """
   GET -> list all current students under this instructor
@@ -75,9 +72,17 @@ class InstructorAssignmentListCreateView(generics.ListCreateAPIView):
     return Assignment.objects.filter(enrollment__instructor=self.request.user)
   
   def perform_create(self, serializer):
-    enrollment = serializer.validated_data['enrollment']
+    enrollment = serializer.validated_data["enrollment"]
+    drill = serializer.validated_data["drill"]
+
     if enrollment.instructor != self.request.user:
       raise serializers.ValidationError("You cannot assign drills to students you do not coach.")
+    
+    if Assignment.objects.filter(enrollment=enrollment, drill=drill).exists():
+      raise serializers.ValidationError({
+        "detail": "This drill is already assigned to the selected student."
+      })
+    
     serializer.save()
   
 
@@ -91,52 +96,3 @@ class InstructorAssignmentDetailView(generics.DestroyAPIView):
 
   def get_queryset(self):
     return Assignment.objects.filter(enrollment__instructor=self.request.user)
-
-
-
-# Student views
-class StudentEnrollmentView(views.APIView):
-  """
-  GET -> show the instructor this student is enrolled under
-  Used in: Student 'Profile' page.
-  """
-  permission_classes = [permissions.IsAuthenticated, IsStudent]
-
-  def get(self, request):
-    enrollment = Enrollment.objects.filter(student=self.request.user).first()
-    if not enrollment:
-      return Response(
-        {"message": "You are not enrolled under any instructor."},
-        status=status.HTTP_404_NOT_FOUND
-      )
-    return Response({
-      "instructor_username": enrollment.instructor.username
-    })
-
-
-class StudentAssignmentListView(generics.ListAPIView):
-  """
-  GET -> list all drills assigned to this student
-  Used in: Student 'Assigned Drills' page.
-  """
-  serializer_class = AssignmentSerializer
-  permission_classes = [permissions.IsAuthenticated, IsStudent]
-
-  def get_queryset(self):
-    enrollment = Enrollment.objects.filter(student=self.request.user).first()
-    if not enrollment:
-      return Assignment.objects.none()
-    return Assignment.objects.filter(enrollment=enrollment)
-  
-
-class StudentAssignmentUpdateView(generics.UpdateAPIView):
-  """
-  PATCH -> mark an assigned drill as completed 
-  Used in: Student 'Assigned Drills' page.
-  """
-  serializer_class = AssignmentCompletionSerializer
-  permission_classes = [permissions.IsAuthenticated, IsStudent]
-  http_method_names = ["patch"]
-
-  def get_queryset(self):
-    return Assignment.objects.filter(enrollment__student=self.request.user)
