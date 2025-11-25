@@ -15,7 +15,7 @@ import os
 
 BASE_DIR = Path(__file__).resolve().parent.parent
 
-# --- simple .env loader (dev) ---
+# --- simple .env loader ---
 env_path = BASE_DIR / ".env"
 if env_path.exists():
     for line in env_path.read_text().splitlines():
@@ -28,25 +28,17 @@ if env_path.exists():
 SECRET_KEY = os.environ["DJANGO_SECRET_KEY"]
 DEBUG = os.getenv("DEBUG", "0") in ("1", "true", "True")
 
-# Host/CORS basics for local dev
 CORS_ALLOW_CREDENTIALS = True
 CORS_ALLOWED_ORIGINS = ["http://localhost:5173"]
-CSRF_TRUSTED_ORIGINS = ["http://localhost:5173", "http://localhost:8000"]
+CSRF_TRUSTED_ORIGINS = ["http://localhost:5173"]
 ALLOWED_HOSTS = ["localhost"]
 
-# API-only auth stack
 AUTHENTICATION_BACKENDS = [
-    "django.contrib.auth.backends.ModelBackend",
-    "allauth.account.auth_backends.AuthenticationBackend",
+    "django.contrib.auth.backends.ModelBackend"
 ]
 
 INSTALLED_APPS = [
-    # Allauth (API-only)
-    "allauth",
-    "allauth.account",
-    "allauth.headless",
-
-    # CORS for SPA
+    # CORS
     "corsheaders",
 
     # Django core
@@ -58,31 +50,24 @@ INSTALLED_APPS = [
     "django.contrib.sites",
     "django.contrib.staticfiles",
 
-    # DRF + dj-rest-auth (for your custom registration serializer, other APIs)
+    # DRF (API-only)
     "rest_framework",
     "rest_framework.authtoken",
-    "dj_rest_auth",
-    "dj_rest_auth.registration",
 
     # Your apps
-    "user_profile.apps.UserProfileConfig",
+    "user_profile",
+    "training",
 ]
 
-SITE_ID = 1
-
-# Use your custom headless adapter to include is_instructor in session payload
-ACCOUNT_ADAPTER = "user_profile.adapters.CustomAccountAdapter"
-HEADLESS_ADAPTER = "badminton_backend.auth_adapters.MyHeadlessAdapter"
-HEADLESS_ONLY = True  # tell allauth you’re API-only
+SITE_ID = 1   # harmless to keep
 
 MIDDLEWARE = [
-    "corsheaders.middleware.CorsMiddleware",  # keep CORS first
+    "corsheaders.middleware.CorsMiddleware",
     "django.middleware.security.SecurityMiddleware",
     "django.contrib.sessions.middleware.SessionMiddleware",
     "django.middleware.common.CommonMiddleware",
-    "django.middleware.csrf.CsrfViewMiddleware",  # keep; you’re using cookies
+    "django.middleware.csrf.CsrfViewMiddleware",
     "django.contrib.auth.middleware.AuthenticationMiddleware",
-    "allauth.account.middleware.AccountMiddleware",
     "django.contrib.messages.middleware.MessageMiddleware",
     "django.middleware.clickjacking.XFrameOptionsMiddleware",
 ]
@@ -107,7 +92,7 @@ TEMPLATES = [
 
 WSGI_APPLICATION = "badminton_backend.wsgi.application"
 
-# Database (Postgres)
+# Postgres
 DATABASES = {
     "default": {
         "ENGINE": "django.db.backends.postgresql",
@@ -119,7 +104,6 @@ DATABASES = {
     }
 }
 
-# Password validators
 AUTH_PASSWORD_VALIDATORS = [
     {"NAME": "django.contrib.auth.password_validation.UserAttributeSimilarityValidator"},
     {"NAME": "django.contrib.auth.password_validation.MinimumLengthValidator"},
@@ -127,7 +111,7 @@ AUTH_PASSWORD_VALIDATORS = [
     {"NAME": "django.contrib.auth.password_validation.NumericPasswordValidator"},
 ]
 
-# Cookies/session (explicit dev defaults; set *SECURE=True in prod over HTTPS)
+# Cookies
 SESSION_COOKIE_SAMESITE = "Lax"
 CSRF_COOKIE_SAMESITE = "Lax"
 SESSION_COOKIE_SECURE = False
@@ -141,15 +125,10 @@ USE_TZ = True
 STATIC_URL = "static/"
 DEFAULT_AUTO_FIELD = "django.db.models.BigAutoField"
 
-# Allauth login style (username-only)
-ACCOUNT_LOGIN_METHODS = {"username"}  # or: ACCOUNT_AUTHENTICATION_METHOD = "username"
-ACCOUNT_SIGNUP_FIELDS = ["username*", "password1*", "password2*"]
-ACCOUNT_EMAIL_VERIFICATION = "none"
-
-# DRF defaults (session auth; everything requires auth by default—adjust per view)
+# DRF TOKEN AUTH SETTINGS
 REST_FRAMEWORK = {
     "DEFAULT_AUTHENTICATION_CLASSES": [
-        "rest_framework.authentication.SessionAuthentication",
+        "rest_framework.authentication.TokenAuthentication"
     ],
     "DEFAULT_PERMISSION_CLASSES": [
         "rest_framework.permissions.IsAuthenticated",
