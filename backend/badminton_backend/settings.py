@@ -66,7 +66,6 @@ INSTALLED_APPS = [
 
     # Your apps
     "user_profile.apps.UserProfileConfig",
-    "training.apps.TrainingConfig"
 ]
 
 SITE_ID = 1
