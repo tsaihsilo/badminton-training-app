@@ -55,7 +55,7 @@ INSTALLED_APPS = [
     "rest_framework.authtoken",
 
     # Your apps
-    "user_profile",
+    "accounts",
     "training",
 ]
 
