@@ -17,3 +17,10 @@ class SignupSerializer(serializers.ModelSerializer):
     user = User.objects.create_user(**validated_data)
     UserProfile.objects.create(user=user, is_instructor=is_instructor)
     return user
+  
+class MeSerializer(serializers.ModelSerializer):
+  is_instructor = serializers.BooleanField(source="userprofile.is_instructor")
+
+  class Meta:
+    model = User
+    fields = ["username", "is_instructor"]

@@ -2,11 +2,12 @@ from rest_framework.views import APIView
 from rest_framework.permissions import AllowAny
 from rest_framework.response import Response
 from rest_framework import status
-from .serializers import SignupSerializer
 from rest_framework.authtoken.models import Token
 
+from .serializers import MeSerializer, SignupSerializer
+
 class SignupView(APIView):
-  permission_classes = []
+  permission_classes = [AllowAny]
   authentication_classes = []
 
   def post(self, request):
@@ -18,3 +19,8 @@ class SignupView(APIView):
       {"token": token.key}, 
       status=status.HTTP_201_CREATED,
     )
+
+class MeView(APIView):
+  def get(self, request):
+    serializer = MeSerializer(request.user)
+    return Response(serializer.data)
