@@ -1,10 +1,10 @@
 import { Navigate } from "react-router-dom";
-import { useAuthSessionQuery } from "../features/auth/hooks/useAuthSessionQuery"
+import { useCurrentUser } from "../features/user/hooks/useCurrentUser";
 
 export const AppIndexRedirect = () => {
-  const { data, isLoading } = useAuthSessionQuery();
+  const { data, isLoading } = useCurrentUser();
 
-  if (isLoading || typeof data?.isInstructor !== "boolean") return <div>Loading...</div>;
+  if (isLoading) return <div>Loading...</div>;
 
-  return <Navigate to={data?.isInstructor ? "/app/instructor" : "/app/student"} replace />;
+  return <Navigate to={data?.is_instructor ? "/app/instructor" : "/app/student"} replace />;
 }
