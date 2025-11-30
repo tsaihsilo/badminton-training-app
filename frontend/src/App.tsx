@@ -1,22 +1,26 @@
 import { Navigate, Route, Routes } from "react-router-dom";
-import { PublicRoute }  from "./routes/PublicRoute";
+
+import { PublicRoute } from "./routes/PublicRoute";
 import { PrivateRoute } from "./routes/PrivateRoute";
-
-import { SignupForm } from './features/auth/pages/SignupForm';
-import { LoginForm } from './features/auth/pages/LoginForm';
-import { AssignedDrillsPage } from "./features/student/AssignedDrillsPage";
-
-import { StudentAppLayout } from "./layouts/StudentAppLayout";
-import { InstructorAppLayout } from "./layouts/InstructorAppLayout";
-import { AssignDrillsPage } from "./features/instructor/AssignDrillsPage";
-import { DemoVideosPage } from "./features/instructor/DemoVideosPage";
-import { MessagesPage } from "./features/messages/MessagesPage";
 import { AppIndexRedirect } from "./routes/AppIndexRedirect";
 
+import { SignupForm } from "./features/auth/pages/SignupForm";
+import { LoginForm } from "./features/auth/pages/LoginForm";
+
+import { InstructorAppLayout } from "./layouts/InstructorAppLayout";
+import { StudentAppLayout } from "./layouts/StudentAppLayout";
+
+import { DemoVideosPage } from "./features/instructor/DemoVideosPage";
+import { AssignDrillsPage } from "./features/instructor/AssignDrillsPage";
+
+import { AssignedDrillsPage } from "./features/student/AssignedDrillsPage";
+
+import { MessagesPage } from "./features/messages/MessagesPage";
 
 export const App = () => {
   return (
     <Routes>
+      {/* Default redirect */}
       <Route index element={<Navigate to="/auth/signup" replace />} />
 
       {/* Public */}
@@ -28,20 +32,22 @@ export const App = () => {
 
       {/* Private */}
       <Route path="app" element={<PrivateRoute />}>
-        <Route index element={<AppIndexRedirect />} /> 
-          {/* Instructor */}
-          <Route path="instructor" element={<InstructorAppLayout />}>
-            <Route index element={<Navigate to="/app/instructor/demo-videos" replace />} />
-            <Route path="demo-videos" element={<DemoVideosPage />} />
-            <Route path="assign-drills" element={<AssignDrillsPage />}/>
-            <Route path="messages" element={<MessagesPage />}/>
-          </Route>
-          {/* Student */}
-          <Route path="student" element={<StudentAppLayout />}>
-            <Route index element={<Navigate to="/app/student/assigned-drills" replace />} />
-            <Route path="assigned-drills" element={<AssignedDrillsPage />}/>
-            <Route path="messages" element={<MessagesPage />}/>
-          </Route>
+        <Route index element={<AppIndexRedirect />} />
+
+        {/* Instructor */}
+        <Route path="instructor" element={<InstructorAppLayout />}>
+          <Route index element={<Navigate to="demo-videos" replace />} />
+          <Route path="demo-videos" element={<DemoVideosPage />} />
+          <Route path="assign-drills" element={<AssignDrillsPage />} />
+          <Route path="messages" element={<MessagesPage />} />
+        </Route>
+
+        {/* Student */}
+        <Route path="student" element={<StudentAppLayout />}>
+          <Route index element={<Navigate to="assigned-drills" replace />} />
+          <Route path="assigned-drills" element={<AssignedDrillsPage />} />
+          <Route path="messages" element={<MessagesPage />} />
+        </Route>
       </Route>
     </Routes>
   );
