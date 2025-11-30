@@ -1,12 +1,20 @@
-import { useAuthSessionQuery } from "../features/auth/hooks/useAuthSessionQuery";
-import { BaseAppLayout } from "./shared/BaseAppLayout";
-import { instructorNavItems } from "./shared/navItems";
-import { useNavWithSignOut } from "./shared/useNavWithSignOut";
+import { Navigate, Outlet } from "react-router-dom";
+import { useCurrentUser } from "../features/user/hooks/useCurrentUser";
+import { BaseAppLayout } from "./BaseAppLayout";
+import { instructorNavItems } from "../shared/navItems";
 
 export const InstructorAppLayout = () => {
-  const { data } = useAuthSessionQuery();
-  const username = data?.user?.username ?? "instructor";
-  const navItems = useNavWithSignOut(instructorNavItems);
+  const { data, isLoading } = useCurrentUser();
 
-  return <BaseAppLayout username={username} navItems={navItems} />;
-}
+  if (isLoading) return <div>Loading...</div>;
+
+  if (!data.is_instructor) {
+    return <Navigate to="/app/student" replace />;
+  }
+
+  return (
+    <BaseAppLayout username={data.username} navItems={instructorNavItems}>
+      <Outlet/>
+    </BaseAppLayout>
+  );
+};
