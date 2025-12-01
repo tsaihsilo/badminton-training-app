@@ -1,5 +1,5 @@
 from django.contrib.auth import get_user_model
-from rest_framework import generics, permissions
+from rest_framework import generics
 from django.http import Http404
 from ..permissions import IsStudent
 from ..models import Enrollment, Assignment
@@ -13,7 +13,7 @@ class StudentEnrollmentView(generics.RetrieveAPIView):
   Used in: Student 'Profile' page.
   """
   serializer_class = EnrollmentSerializer
-  permission_classes = [permissions.IsAuthenticated, IsStudent]
+  permission_classes = [IsStudent]
 
   def get_object(self):
     enrollment = Enrollment.objects.filter(student=self.request.user).first()
@@ -28,7 +28,7 @@ class StudentAssignmentListView(generics.ListAPIView):
   Used in: Student 'Assigned Drills' page.
   """
   serializer_class = AssignmentSerializer
-  permission_classes = [permissions.IsAuthenticated, IsStudent]
+  permission_classes = [IsStudent]
 
   def get_queryset(self):
     enrollment = Enrollment.objects.filter(student=self.request.user).first()
@@ -43,7 +43,7 @@ class StudentAssignmentUpdateView(generics.UpdateAPIView):
   Used in: Student 'Assigned Drills' page.
   """
   serializer_class = AssignmentCompletionSerializer
-  permission_classes = [permissions.IsAuthenticated, IsStudent]
+  permission_classes = [IsStudent]
   http_method_names = ["patch"]
 
   def get_queryset(self):

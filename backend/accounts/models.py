@@ -6,4 +6,5 @@ class UserProfile(models.Model):
   is_instructor = models.BooleanField(default=False)
 
   def __str__(self):
-    return f"{self.user.username} ({'Instructor' if self.is_instructor else 'Student'})"
+    role = "Instructor" if self.is_instructor else "Student"
+    return f"{self.user.username} ({role})"

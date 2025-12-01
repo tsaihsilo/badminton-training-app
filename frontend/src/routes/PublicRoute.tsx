@@ -1,14 +1,15 @@
 import { Navigate, Outlet } from "react-router-dom";
-import { useAuthSessionQuery } from "../features/auth/hooks/useAuthSessionQuery";
+import { useCurrentUser } from "../features/user/hooks/useCurrentUser"
 
 export const PublicRoute = () => {
-  const { data, isLoading } = useAuthSessionQuery();
+  const { data, isLoading, error } = useCurrentUser();
+  const token = localStorage.getItem("token");
 
-  if (isLoading) return <div>Loading...</div>
+  if (isLoading) return <div>Loading...</div>;
 
-  if (data?.isAuthenticated) {
-    return <Navigate to="/app" />;
+  if (token && !error && data?.username) {
+    return <Navigate to="/app" replace />;
   }
-  
+
   return <Outlet />;
 }

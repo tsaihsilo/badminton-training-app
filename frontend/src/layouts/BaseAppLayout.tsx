@@ -1,24 +1,26 @@
 import { Box } from "@mui/system";
-import { drawerWidth, colors, headerHeight } from "./constants";
-import { NavItem } from "./navItems";
-import { SideBar } from "./Sidebar";
-import { Header } from "./Header";
-import { Outlet } from "react-router-dom";
+import { drawerWidth, colors, headerHeight } from "../shared/constants";
+import { NavItem } from "../shared/navItems";
+import { SideBar } from "../shared/Sidebar";
+import { Header } from "../shared/Header";
+import { ReactNode } from "react";
 
 export const BaseAppLayout = ({
-  username, 
-  navItems, 
+  username,
+  navItems,
+  children,
 }: {
   username: string;
   navItems: NavItem[];
+  children?: ReactNode;
 }) => {
   return (
     <Box sx={{ position: "relative", width: "100vw", height: "100vh", bgcolor: colors.pageBg }}>
       <Header username={username} />
       <SideBar navItems={navItems} />
       <Box component="main" sx={{ flexGrow: 1, ml: `${drawerWidth}px`, mt: `${headerHeight}px`, p: 3, color: colors.inPageText }}>
-        <Outlet /> 
+        {children}
       </Box>
     </Box>
-  )
-}
+  );
+};

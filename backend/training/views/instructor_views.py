@@ -1,5 +1,5 @@
 from django.contrib.auth import get_user_model
-from rest_framework import generics, permissions, serializers
+from rest_framework import generics, serializers
 from ..permissions import IsInstructor
 from ..models import Drill, Enrollment, Assignment
 from ..serializers import DrillSerializer, EnrollmentSerializer, AssignmentSerializer, StudentSerializer
@@ -13,7 +13,7 @@ class InstructorEnrollmentListCreateView(generics.ListCreateAPIView):
   Used in: Instructor 'Manage Students' page.
   """
   serializer_class = EnrollmentSerializer
-  permission_classes = [permissions.IsAuthenticated, IsInstructor]
+  permission_classes = [IsInstructor]
 
   def get_queryset(self):
     return Enrollment.objects.filter(instructor=self.request.user)
@@ -33,7 +33,7 @@ class InstructorEnrollmentDetailView(generics.DestroyAPIView):
   Used in: Instructor 'Manage Students' page.
   """
   serializer_class = EnrollmentSerializer
-  permission_classes = [permissions.IsAuthenticated, IsInstructor]
+  permission_classes = [IsInstructor]
   
   def get_queryset(self):
     return Enrollment.objects.filter(instructor=self.request.user)
@@ -45,7 +45,7 @@ class InstructorStudentListView(generics.ListAPIView):
   Used in: Instructor 'Manage Students' page.
   """
   serializer_class = StudentSerializer
-  permission_classes = [permissions.IsAuthenticated, IsInstructor]
+  permission_classes = [IsInstructor]
   queryset = User.objects.filter(userprofile__is_instructor=False)
 
 
@@ -55,7 +55,7 @@ class InstructorDrillListView(generics.ListAPIView):
   Used in: Instructor 'Demo Videos' page.
   """
   serializer_class = DrillSerializer
-  permission_classes = [permissions.IsAuthenticated, IsInstructor]
+  permission_classes = [IsInstructor]
   queryset = Drill.objects.filter(is_active=True).order_by("title")
 
 
@@ -66,7 +66,7 @@ class InstructorAssignmentListCreateView(generics.ListCreateAPIView):
   Used in : Instructor 'Assign Drills' page.
   """
   serializer_class = AssignmentSerializer
-  permission_classes = [permissions.IsAuthenticated, IsInstructor]
+  permission_classes = [IsInstructor]
 
   def get_queryset(self):
     return Assignment.objects.filter(enrollment__instructor=self.request.user)
@@ -92,7 +92,7 @@ class InstructorAssignmentDetailView(generics.DestroyAPIView):
   Used in: Instructor 'Assign Drill' page.
   """
   serializer_class = AssignmentSerializer
-  permission_classes = [permissions.IsAuthenticated, IsInstructor]
+  permission_classes = [IsInstructor]
 
   def get_queryset(self):
     return Assignment.objects.filter(enrollment__instructor=self.request.user)
