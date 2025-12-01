@@ -9,7 +9,7 @@ import { AuthPageShell } from "../components/AuthPageShell";
 export const SignupForm = () => {
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
-  const [isInstructor, setIsInstructor] = useState(false);
+  const [is_instructor, setIsInstructor] = useState(false);
   const [error, setError] = useState("");
 
   const navigate = useNavigate();
@@ -23,7 +23,7 @@ export const SignupForm = () => {
       headers: {
         "Content-Type": "application/json",
       },
-      body: JSON.stringify({ username, password, isInstructor }),
+      body: JSON.stringify({ username, password, is_instructor }),
     });
 
     const data = await res.json();
@@ -62,7 +62,7 @@ export const SignupForm = () => {
           <Grid item xs={12}>
             <TextField
               select fullWidth label="Role"
-              value={isInstructor ? "Instructor" : "Student"}
+              value={is_instructor ? "Instructor" : "Student"}
               onChange={(e) => setIsInstructor(e.target.value === "Instructor")}
               {...textFieldStyles}
             >
