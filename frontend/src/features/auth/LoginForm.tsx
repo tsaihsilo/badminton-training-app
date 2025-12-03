@@ -1,10 +1,10 @@
 import { useState } from "react";
 import { useNavigate, Link as RouterLink } from "react-router-dom";
 
-import { textFieldStyles } from "../styles/textFieldStyles";
+import { textFieldStyles } from "./styles/textFieldStyles";
 
 import { Box, Button, TextField, Grid, Link } from "@mui/material";
-import { AuthPageShell } from "../components/AuthPageShell";
+import { AuthPageShell } from "./components/AuthPageShell";
 
 export const LoginForm = () => {
   const [username, setUsername] = useState("");

@@ -4,8 +4,8 @@ import { PublicRoute } from "./routes/PublicRoute";
 import { PrivateRoute } from "./routes/PrivateRoute";
 import { AppIndexRedirect } from "./routes/AppIndexRedirect";
 
-import { SignupForm } from "./features/auth/pages/SignupForm";
-import { LoginForm } from "./features/auth/pages/LoginForm";
+import { SignupForm } from "./features/auth/SignupForm";
+import { LoginForm } from "./features/auth/LoginForm";
 
 import { InstructorAppLayout } from "./layouts/InstructorAppLayout";
 import { StudentAppLayout } from "./layouts/StudentAppLayout";
