@@ -10,7 +10,7 @@ import { LoginForm } from "./features/auth/pages/LoginForm";
 import { InstructorAppLayout } from "./layouts/InstructorAppLayout";
 import { StudentAppLayout } from "./layouts/StudentAppLayout";
 
-import { DemoVideosPage } from "./features/instructor/DemoVideosPage";
+import { TutorialVideosPage } from "./features/instructor/TutorialVideosPage";
 import { AssignDrillsPage } from "./features/instructor/AssignDrillsPage";
 
 import { AssignedDrillsPage } from "./features/student/AssignedDrillsPage";
@@ -36,8 +36,8 @@ export const App = () => {
 
         {/* Instructor */}
         <Route path="instructor" element={<InstructorAppLayout />}>
-          <Route index element={<Navigate to="demo-videos" replace />} />
-          <Route path="demo-videos" element={<DemoVideosPage />} />
+          <Route index element={<Navigate to="tutorial-videos" replace />} />
+          <Route path="tutorial-videos" element={<TutorialVideosPage />} />
           <Route path="assign-drills" element={<AssignDrillsPage />} />
           <Route path="messages" element={<MessagesPage />} />
         </Route>

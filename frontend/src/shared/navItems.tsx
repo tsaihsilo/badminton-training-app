@@ -18,7 +18,7 @@ const logoutAction = async () => {
 }
 
 export const instructorNavItems: NavItem[] = [
-  { title: "Demo Videos", icon: <VideocamOutlinedIcon sx={{ fontSize: 31 }} />, link: "/app/instructor/demo-videos" },
+  { title: "Tutorial Videos", icon: <VideocamOutlinedIcon sx={{ fontSize: 31 }} />, link: "/app/instructor/tutorial-videos" },
   { title: "Assign Drills", icon: <AssignmentTurnedInOutlinedIcon sx={{ fontSize: 31 }} />, link: "/app/instructor/assign-drills" },
   { title: "Messages", icon: <SmsOutlinedIcon sx={{ fontSize: 31 }} />, link: "/app/instructor/messages", badge: 3 }, // fix
   { title: "Sign Out", action: logoutAction },

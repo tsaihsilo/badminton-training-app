@@ -51,8 +51,8 @@ class InstructorStudentListView(generics.ListAPIView):
 
 class InstructorDrillListView(generics.ListAPIView):
   """
-  GET -> list all demo drills
-  Used in: Instructor 'Demo Videos' page.
+  GET -> list all drills
+  Used in: Instructor 'Tutorial Videos' page.
   """
   serializer_class = DrillSerializer
   permission_classes = [IsInstructor]
