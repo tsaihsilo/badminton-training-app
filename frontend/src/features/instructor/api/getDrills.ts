@@ -12,7 +12,7 @@ export const getDrills = async () => {
   const data = await res.json();
 
   if (!res.ok) {
-    throw new Error(data.error || "Can not access drills.");
+    throw new Error(data.error || "Failed fetching drills.");
   }
 
   return data;

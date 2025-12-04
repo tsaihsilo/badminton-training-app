@@ -13,9 +13,9 @@ interface Drill {
 export const TutorialVideosPage = () => {
   const { data, isLoading, error } = useDrills();
 
-  if (isLoading) return <div>Loading</div>;
+  if (isLoading) return <div>Loading...</div>
 
-  if (error) return <div>Error loading drills</div>
+  if (error) return <div>Error loading drills.</div>
 
   return (
     <div style={{ padding: "10px 10px 10px 90px" }}>
