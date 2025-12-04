@@ -23,7 +23,7 @@ export const Header = ({ username }: { username: string }) => {
           alignItems: "center",
         }}
       >
-        <Typography variant="subtitle1" sx={{ color: colors.accent, fontWeight: 300 }}>
+        <Typography variant="subtitle1" sx={{ color: colors.accent, fontWeight: 500 }}>
           Hi, {username}
         </Typography>
       </Toolbar>
