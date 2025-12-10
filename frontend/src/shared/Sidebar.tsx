@@ -66,7 +66,6 @@ export const SideBar = ({ navItems }: { navItems: NavItem[] }) => {
         }}
       >
         <Typography
-          variant="h6"
           sx={{
             fontWeight: 800,
             color: colors.accent,

@@ -1,6 +1,6 @@
 import { useMutation } from "@tanstack/react-query";
-import { queryClient } from "../../../lib/queryClient";
 import { deleteEnrollment } from "../api/deleteEnrollment";
+import { queryClient } from "../../../lib/queryClient";
 
 export const useDeleteEnrollment = () => {
   return useMutation({
