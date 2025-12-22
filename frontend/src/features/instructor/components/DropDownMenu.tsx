@@ -1,7 +1,7 @@
 import { useState } from "react";
 import { Autocomplete, Box, Button, TextField } from "@mui/material";
-import { useSearchStudents } from "../hooks/useSearchStudents";
-import { useAddEnrollment } from "../hooks/useAddEnrollment";
+import { useSearchStudents } from "../hooks/students/useSearchStudents";
+import { useAddEnrollment } from "../hooks/enrollments/useAddEnrollment";
 import { colors } from "../../../shared/constants";
 
 interface Student {

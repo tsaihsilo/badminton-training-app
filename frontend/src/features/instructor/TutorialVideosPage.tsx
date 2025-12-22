@@ -1,13 +1,13 @@
-import { useDrills } from "./hooks/useDrills";
+import { useDrills } from "./hooks/drills/useDrills";
 
 import { Typography } from "@mui/material";
 import { colors } from "../../shared/constants";
 
 interface Drill {
-  "id": number,
-  "title": string,
-  "video_url": string,
-  "is_active": boolean,
+  id: number,
+  title: string,
+  video_url: string,
+  is_active: boolean,
 }
 
 export const TutorialVideosPage = () => {
