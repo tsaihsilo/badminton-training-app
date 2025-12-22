@@ -14,6 +14,7 @@ import { ManageStudentsPage } from "./features/instructor/ManageStudentsPage";
 import { TutorialVideosPage } from "./features/instructor/TutorialVideosPage";
 import { AssignDrillsPage } from "./features/instructor/AssignDrillsPage";
 
+import { MyProfile } from "./features/student/MyProfile";
 import { AssignedDrillsPage } from "./features/student/AssignedDrillsPage";
 
 export const App = () => {
@@ -43,7 +44,8 @@ export const App = () => {
 
         {/* Student */}
         <Route path="student" element={<StudentAppLayout />}>
-          <Route index element={<Navigate to="assigned-drills" replace />} />
+          <Route index element={<Navigate to="my-profile" replace />} />
+          <Route path="my-profile" element={<MyProfile />} />
           <Route path="assigned-drills" element={<AssignedDrillsPage />} />
         </Route>
       </Route>

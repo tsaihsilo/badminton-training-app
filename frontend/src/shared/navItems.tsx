@@ -1,4 +1,5 @@
 import PeopleIcon from '@mui/icons-material/People';
+import PersonIcon from '@mui/icons-material/Person';
 import VideocamOutlinedIcon from '@mui/icons-material/VideocamOutlined';
 import AssignmentTurnedInOutlinedIcon from '@mui/icons-material/AssignmentTurnedInOutlined';
 import { queryClient } from '../lib/queryClient';
@@ -25,6 +26,7 @@ export const instructorNavItems: NavItem[] = [
 ]
 
 export const studentNavItems: NavItem[] = [
+  { title: "My Profile", icon: <PersonIcon sx={{ fontSize: 31 }} />, link: "/app/student/my-profile" },
   { title: "Assigned Drills", icon: <AssignmentTurnedInOutlinedIcon sx={{ fontSize: 31 }} />, link: "/app/student/assigned-drills" },
   { title: "Sign Out", action: logoutAction },
 ]
