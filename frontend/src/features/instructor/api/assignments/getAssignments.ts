@@ -1,7 +1,7 @@
-export const getDrills = async () => {
+export const getAssignments = async () => {
   const token = localStorage.getItem("token");
 
-  const res = await fetch("http://localhost:8000/api/training/instructor/drills/", {
+  const res = await fetch("http://localhost:8000/api/training/instructor/assignments/", {
     method: "GET",
     headers: {
       "Content-Type": "application/json",
@@ -12,7 +12,7 @@ export const getDrills = async () => {
   const data = await res.json();
 
   if (!res.ok) {
-    throw new Error(data.error || "Failed fetching drills.");
+    throw new Error(data.detail || "Failed to fetch assignments.")
   }
 
   return data;

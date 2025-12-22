@@ -1,19 +1,18 @@
-export const addEnrollment = async (id: number) => {
+export const getEnrollments = async () => {
   const token = localStorage.getItem("token");
 
   const res = await fetch("http://localhost:8000/api/training/instructor/enrollments/", {
-    method: "POST",
+    method: "GET",
     headers: {
       "Content-Type": "application/json",
-      "Authorization": `Token ${token}`
+      "Authorization": `Token ${token}`,
     },
-    body: JSON.stringify({ "student": id }),
   });
 
   const data = await res.json();
 
   if (!res.ok) {
-    throw new Error(data.error || "Adding enrollment failed.");
+    throw new Error(data.detail || "Failed fetching enrollments.");
   }
 
   return data;

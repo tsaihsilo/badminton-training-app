@@ -12,7 +12,7 @@ export const searchStudents = async (query: string) => {
   const data = await res.json();
 
   if (!res.ok) {
-    throw new Error(data.error || "Failed searching students.");
+    throw new Error(data.detail || "Failed searching students.");
   }
 
   return data;

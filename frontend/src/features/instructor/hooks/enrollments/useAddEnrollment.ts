@@ -1,6 +1,6 @@
 import { useMutation } from "@tanstack/react-query";
-import { addEnrollment } from "../api/addEnrollment";
-import { queryClient } from "../../../lib/queryClient";
+import { addEnrollment } from "../../api/enrollments/addEnrollment";
+import { queryClient } from "../../../../lib/queryClient";
 
 export const useAddEnrollment = () => {
   return useMutation({
