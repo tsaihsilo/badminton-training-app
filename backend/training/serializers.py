@@ -31,15 +31,17 @@ class StudentSerializer(serializers.ModelSerializer):
 
 
 class AssignmentSerializer(serializers.ModelSerializer):
-  student_username = serializers.CharField(source="enrollment.student.username", read_only=True)
-  drill_title = serializers.CharField(source="drill.title", read_only=True)
-
+  drill = serializers.PrimaryKeyRelatedField(
+    queryset=Drill.objects.all() , write_only=True
+  ) 
+  drill_detail = DrillSerializer(source="drill", read_only=True)
+  
   class Meta:
     model = Assignment
-    fields = ["id", "enrollment", "drill", "is_completed", "student_username", "drill_title"]
+    fields = ["id", "enrollment", "drill", "drill_detail", "is_completed"]
 
 
 class AssignmentCompletionSerializer(serializers.ModelSerializer):
-    class Meta:
-        model = Assignment
-        fields = ["is_completed"]
+  class Meta:
+      model = Assignment
+      fields = ["is_completed"]

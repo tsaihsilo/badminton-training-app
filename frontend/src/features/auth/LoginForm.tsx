@@ -1,29 +1,28 @@
 import { useState } from "react";
 import { useNavigate, Link as RouterLink } from "react-router-dom";
 
-import { textFieldStyles } from "../styles/textFieldStyles";
+import { textFieldStyles } from "./styles/textFieldStyles";
 
-import { Box, Button, TextField, MenuItem, Grid, Link } from "@mui/material";
-import { AuthPageShell } from "../components/AuthPageShell";
+import { Box, Button, TextField, Grid, Link } from "@mui/material";
+import { AuthPageShell } from "./components/AuthPageShell";
 
-export const SignupForm = () => {
+export const LoginForm = () => {
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
-  const [is_instructor, setIsInstructor] = useState(false);
   const [error, setError] = useState("");
 
   const navigate = useNavigate();
-
+  
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     setError("");
 
-    const res = await fetch("http://localhost:8000/api/accounts/signup/", {
-      method: "POST",
+    const res = await fetch("http://localhost:8000/api/token-auth/", {
+      method: "POST", 
       headers: {
         "Content-Type": "application/json",
       },
-      body: JSON.stringify({ username, password, is_instructor }),
+      body: JSON.stringify({ username, password }),
     });
 
     const data = await res.json();
@@ -32,15 +31,14 @@ export const SignupForm = () => {
       localStorage.setItem("token", data.token);
       navigate("/app", { replace: true });
     } else {
-      setError(data.error || "Signup failed. Please check your info.")
+      setError(data.non_field_errors?.[0] || "Login Failed.");
     }
   };
 
   return (
-    <AuthPageShell title="Sign Up">
+    <AuthPageShell title="Log In">
       <Box component="form" onSubmit={handleSubmit} sx={{ width: "100%" }}>
         <Grid container spacing={2}>
-
           <Grid item xs={12}>
             <TextField
               required fullWidth label="Username"
@@ -58,18 +56,6 @@ export const SignupForm = () => {
               {...textFieldStyles}
             />
           </Grid>
-
-          <Grid item xs={12}>
-            <TextField
-              select fullWidth label="Role"
-              value={is_instructor ? "Instructor" : "Student"}
-              onChange={(e) => setIsInstructor(e.target.value === "Instructor")}
-              {...textFieldStyles}
-            >
-              <MenuItem value="Instructor">Instructor</MenuItem>
-              <MenuItem value="Student">Student</MenuItem>
-            </TextField>
-          </Grid>
         </Grid>
 
         {error && (
@@ -85,13 +71,13 @@ export const SignupForm = () => {
             "&:hover": { bgcolor: "rgba(180, 160, 0, 0.6)" },
           }}
         >
-          Sign Up
+          Log In
         </Button>
 
         <Grid container justifyContent="flex-start">
           <Grid item>
-            <Link component={RouterLink} to="/auth/login" sx={{ color: "rgba(243, 227, 8, 1)" }}>
-              Already have an account?
+            <Link component={RouterLink} to="/auth/signup" sx={{ color: "rgba(243, 227, 8, 1)" }}>
+              Don't have an account?
             </Link>
           </Grid>
         </Grid>

@@ -22,7 +22,7 @@ class InstructorEnrollmentListCreateView(generics.ListCreateAPIView):
     student = serializer.validated_data["student"]
     if Enrollment.objects.filter(student=student).exists():
       raise serializers.ValidationError({
-        "student": "This student is already enrolled."
+        "error": "This student is already enrolled."
       })
     serializer.save(instructor=self.request.user)
   
@@ -39,20 +39,23 @@ class InstructorEnrollmentDetailView(generics.DestroyAPIView):
     return Enrollment.objects.filter(instructor=self.request.user)
 
 
-class InstructorStudentListView(generics.ListAPIView):
+class InstructorStudentSearchListView(generics.ListAPIView):
   """
-  GET -> list all students (for dropdown when adding/removing)
+  GET -> search students whose usernames starts with query param
   Used in: Instructor 'Manage Students' page.
   """
   serializer_class = StudentSerializer
   permission_classes = [IsInstructor]
-  queryset = User.objects.filter(userprofile__is_instructor=False)
+
+  def get_queryset(self):
+    query = self.request.query_params.get("search", "")
+    return User.objects.filter(userprofile__is_instructor=False, username__istartswith=query)
 
 
 class InstructorDrillListView(generics.ListAPIView):
   """
-  GET -> list all demo drills
-  Used in: Instructor 'Demo Videos' page.
+  GET -> list all drills
+  Used in: Instructor 'Tutorial Videos' page.
   """
   serializer_class = DrillSerializer
   permission_classes = [IsInstructor]

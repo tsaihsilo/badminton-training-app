@@ -4,18 +4,18 @@ import { PublicRoute } from "./routes/PublicRoute";
 import { PrivateRoute } from "./routes/PrivateRoute";
 import { AppIndexRedirect } from "./routes/AppIndexRedirect";
 
-import { SignupForm } from "./features/auth/pages/SignupForm";
-import { LoginForm } from "./features/auth/pages/LoginForm";
+import { SignupForm } from "./features/auth/SignupForm";
+import { LoginForm } from "./features/auth/LoginForm";
 
 import { InstructorAppLayout } from "./layouts/InstructorAppLayout";
 import { StudentAppLayout } from "./layouts/StudentAppLayout";
 
-import { DemoVideosPage } from "./features/instructor/DemoVideosPage";
+import { ManageStudentsPage } from "./features/instructor/ManageStudentsPage";
+import { TutorialVideosPage } from "./features/instructor/TutorialVideosPage";
 import { AssignDrillsPage } from "./features/instructor/AssignDrillsPage";
 
+import { MyProfile } from "./features/student/MyProfile";
 import { AssignedDrillsPage } from "./features/student/AssignedDrillsPage";
-
-import { MessagesPage } from "./features/messages/MessagesPage";
 
 export const App = () => {
   return (
@@ -36,17 +36,17 @@ export const App = () => {
 
         {/* Instructor */}
         <Route path="instructor" element={<InstructorAppLayout />}>
-          <Route index element={<Navigate to="demo-videos" replace />} />
-          <Route path="demo-videos" element={<DemoVideosPage />} />
+          <Route index element={<Navigate to="manage-students" replace />} />
+          <Route path="manage-students" element={<ManageStudentsPage />} />
+          <Route path="tutorial-videos" element={<TutorialVideosPage />} />
           <Route path="assign-drills" element={<AssignDrillsPage />} />
-          <Route path="messages" element={<MessagesPage />} />
         </Route>
 
         {/* Student */}
         <Route path="student" element={<StudentAppLayout />}>
-          <Route index element={<Navigate to="assigned-drills" replace />} />
+          <Route index element={<Navigate to="my-profile" replace />} />
+          <Route path="my-profile" element={<MyProfile />} />
           <Route path="assigned-drills" element={<AssignedDrillsPage />} />
-          <Route path="messages" element={<MessagesPage />} />
         </Route>
       </Route>
     </Routes>
