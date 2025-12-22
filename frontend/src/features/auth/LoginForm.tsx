@@ -31,7 +31,7 @@ export const LoginForm = () => {
       localStorage.setItem("token", data.token);
       navigate("/app", { replace: true });
     } else {
-      setError(data.error || "Invalid username or password.");
+      setError(data.non_field_errors?.[0] || "Login Failed.");
     }
   };
 

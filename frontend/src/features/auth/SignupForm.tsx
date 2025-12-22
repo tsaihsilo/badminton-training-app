@@ -32,7 +32,11 @@ export const SignupForm = () => {
       localStorage.setItem("token", data.token);
       navigate("/app", { replace: true });
     } else {
-      setError(data.error || "Signup failed. Please check your info.")
+      setError(
+        data.detail || 
+        data.non_field_errors?.[0] || 
+        "Signup failed."
+      );
     }
   };
 
