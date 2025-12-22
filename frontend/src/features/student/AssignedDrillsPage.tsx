@@ -23,7 +23,7 @@ export const AssignedDrillsPage = () => {
 
   if (assignments.length === 0) {
     return (
-      <Box sx={{ px: 4, color: colors.inPageText }}>
+      <Box sx={{ px: 4, color: colors.inPageText, mt: 8, ml: 6 }}>
         No drills assigned yet.
       </Box>
     );
