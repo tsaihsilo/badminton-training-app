@@ -1,4 +1,4 @@
-import { Box } from "@mui/system";
+import { Box } from "@mui/material";
 import { drawerWidth, colors, headerHeight } from "../shared/constants";
 import { NavItem } from "../shared/navItems";
 import { SideBar } from "../shared/Sidebar";
