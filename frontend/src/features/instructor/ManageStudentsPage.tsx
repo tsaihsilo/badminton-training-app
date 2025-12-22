@@ -1,23 +1,22 @@
+import { useEnrollments } from "./hooks/enrollments/useEnrollments";
+import { useDeleteEnrollment } from "./hooks/enrollments/useDeleteEnrollment";
+
+import { DropDownMenu } from "./components/DropDownMenu";
+
 import { Box, Button, Typography } from "@mui/material";
 import { colors } from "../../shared/constants";
 
-import { useEnrollments } from "./hooks/useEnrollments";
 
-import { useDeleteEnrollment } from "./hooks/useDeleteEnrollment";
-import { DropDownMenu } from "./components/DropDownMenu";
-
-interface Enrollment {
-  "id": number, 
-  "instructor_username": string, 
-  "student_username": string,
+export interface Enrollment {
+  id: number;
+  instructor_username: string;
+  student_username: string;
 }
 
+
 export const ManageStudentsPage = () => {
-  const { data, isLoading, error} = useEnrollments();
+  const { data = [] } = useEnrollments();
   const deleteEnrollment = useDeleteEnrollment();
-  
-  if (isLoading ) return <div>Loading...</div>;
-  if (error) return <div>Error loading enrollments.</div>;
 
   return (
     <div style={{ padding: "60px 40px" }}>
